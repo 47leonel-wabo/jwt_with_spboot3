@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "app_user")
@@ -23,6 +24,8 @@ public class User {
     private Integer age;
     private String email;
     private String password;
+    @ElementCollection
+    private Set<UserRole> roles;
 
     @Override
     public boolean equals(Object o) {
