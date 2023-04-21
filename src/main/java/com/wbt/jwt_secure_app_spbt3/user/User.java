@@ -8,9 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "app_user")
@@ -29,8 +28,8 @@ public class User implements UserDetails {
     private Integer age;
     private String email;
     private String password;
-    @ElementCollection
-    private Set<UserRole> roles;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @Override
     public boolean equals(Object o) {
@@ -47,10 +46,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .collect(Collectors.toSet());
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
 
     @Override

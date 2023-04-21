@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 @Service
 public class AuthenticationService {
     private final UserRepository mUserRepository;
@@ -36,7 +34,7 @@ public class AuthenticationService {
                 .age(request.age())
                 .email(request.email())
                 .password(mPasswordEncoder.encode(request.password()))
-                .roles(Set.of(UserRole.USER))
+                .role(UserRole.USER)
                 .build();
         mUserRepository.save(user);
         var jwtToken = mJwtService.generateToken(user);
